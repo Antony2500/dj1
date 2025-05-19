@@ -2,6 +2,7 @@ import time
 import traceback
 from datetime import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
@@ -333,3 +334,20 @@ def password_reset_request(request):
                     return redirect ("registration/password_reset/done/")
     password_reset_form = PasswordResetForm()
     return render(request=request, template_name="registration/password_reset.html", context={"password_reset_form":password_reset_form})
+
+
+@login_required
+def me(request):
+    print("Before request.user")
+    if request.user:
+        print("After request.user")
+        print(request.user.email)
+
+        user = User.objects.get(email=request.user.email)
+
+        if user.has_perm("Person.can_read"):
+            print("There is permission")
+            persons = Person.objects.all()
+            return persons
+        return "403"
+    return "404"

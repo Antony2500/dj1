@@ -12,7 +12,7 @@ class Person(models.Model):
     )
 
     def __str__(self):
-        return f"Person {self.pk}: {self.first_name} {self.last_name}"
+        return self.first_name
 
 class Musician(models.Model):
 

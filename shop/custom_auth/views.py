@@ -1,9 +1,11 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 
 from .forms import CustomAuthForm, RegistrationForm
-
+from market.models import Person
 
 
 class CustomLoginView(LoginView):
@@ -17,6 +19,16 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+
+            if "bog2@gmail.com" == user.email:
+                content_type = ContentType.objects.get_for_model(Person)
+                permission = Permission.objects.create(
+                    codename="can_read",
+                    name="Can Read Persons",
+                    content_type=content_type,
+                )
+                user.user_permissions.add(permission)
+
             return redirect("/")
 
     form = RegistrationForm()
@@ -27,3 +39,4 @@ def register(request):
 def logout_user(request):
     logout(request)
     return redirect("/")
+
