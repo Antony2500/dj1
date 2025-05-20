@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} Session {% endblock title %}
+
+
+
+{% block content %}
+    <div style="text-align:center; margin-bottom: 1em;">
+        <h1>Check session logic</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit">Check</button>
+        </form>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,19 @@
+.popup-message {
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.popup-message.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.popup-message.warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.popup-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}

@@ -351,3 +351,29 @@ def me(request):
             return persons
         return "403"
     return "404"
+
+
+def test_session_request(request):
+    if request.method == "POST":
+        if request.session.test_cookie_worked():
+            request.session.delete_test_cookie()
+            request.session["token"] = "19yry19g7-d1fd-f61vd199t4vgx1gb"
+            render(request, "index.html")
+
+        request.session["token"] = "19yry19g7-d1fd-f61vd199t4vgx1gb"
+        print(request.session)
+        print(request.session["token"])
+        return HttpResponseBadRequest("Your browser doesn't support cookies ")
+
+    request.session.set_test_cookie()
+
+    return render(request, "session_lesson.html")
+
+
+def messages_django(request):
+    messages.debug(request, 'This is a debug message.')
+    messages.info(request, 'This is an informational message.')
+    messages.success(request, 'This is a success message.')
+    messages.warning(request, 'This is a warning message.')
+    messages.error(request, 'This is an error message.')
+    return render(request, 'my_template.html')

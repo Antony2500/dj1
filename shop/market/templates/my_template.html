@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %} Session {% endblock title %}
+
+{% load static %}
+{% block static_files %}
+<link rel="stylesheet" href="static/css/messages_django.css">
+{% endblock %}
+
+{% block content %}
+
+  {% if messages %}
+      {% for message in messages %}
+          <div class="popup-message {{ message.tags }}">
+            {{ message }} {{message.tags}}
+          </div>
+      {% endfor %}
+  {% endif %}
+
+{% endblock content %}
