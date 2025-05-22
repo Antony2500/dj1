@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseBadRequest, StreamingHttpResponse, HttpResponseRedirect
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Min, Max, Q
 from django.template.loader import render_to_string
@@ -21,8 +21,9 @@ from django.contrib import messages
 
 from django.core.paginator import Paginator
 
-from .models import Person, Stuff
+from .models import Person, Stuff, Order
 from .forms import PersonForm, PersonModelForm, GetAllPersonForms, CreateNewPersonForms, LoginForm
+from .signals import order_completed
 
 
 def index(request):
@@ -377,3 +378,9 @@ def messages_django(request):
     messages.warning(request, 'This is a warning message.')
     messages.error(request, 'This is an error message.')
     return render(request, 'my_template.html')
+
+
+def checkout_success(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
+    order_completed.send(sender=None, order=order)
+    return HttpResponse("Tnx, all work")

@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from django.conf import settings
 
 class Person(models.Model):
     first_name = models.CharField(max_length=30)
@@ -50,3 +51,14 @@ class Cart(models.Model):
     stuff = models.ForeignKey(Stuff, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
 
+
+class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    total = models.DecimalField(max_digits=9, decimal_places=2)
+
+
+class Product(models.Model):
+    name  = models.CharField(max_length=120)
+    slug  = models.SlugField(blank=True, unique=True)
+    price = models.DecimalField(max_digits=9, decimal_places=2)
