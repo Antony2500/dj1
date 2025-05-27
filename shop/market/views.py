@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
+from django.core.mail import send_mail, get_connection, EmailMessage
 from django.http import HttpResponse, HttpResponseBadRequest, StreamingHttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
@@ -384,3 +384,28 @@ def checkout_success(request, order_id):
     order = get_object_or_404(Order, pk=order_id)
     order_completed.send(sender=None, order=order)
     return HttpResponse("Tnx, all work")
+
+
+def test_email(request):
+    send_mail(
+        'Subject of the Email',
+        'Дякуємо, що зареєструвались.',
+        None,
+        ['anton.andreiev@hippocraticum.ai'],
+        fail_silently=False,
+        html_message="""<h2 style="color:#2c7be5">Вітаємо у сервісі!</h2>
+        <p>Дякуємо, що <b>зареєструвались</b>.</p>
+        <a href="https://example.com" style="padding:8px 16px;
+           background:#2c7be5;color:#fff;text-decoration:none;border-radius:4px">
+           Перейти на сайт
+        </a>
+        """
+    )
+    return HttpResponse("Tnx, all work2")
+
+def test_email2(request):
+    with get_connection() as conn:
+        m1 = EmailMessage("Hello", "One", to=["a@example.com"])
+        m2 = EmailMessage("Hi", "Two", to=["b@example.com"])
+
+        conn.send_messages([m1, m2])
