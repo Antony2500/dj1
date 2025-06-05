@@ -1,12 +1,13 @@
 from django.urls import path
 from django.views.generic import TemplateView
+from django.views.decorators.cache import cache_page
 
 from .views import (index, get_person_by_pk, get_person_by_surname, change_surname, get_or_create_person,
                     update_or_create_person, create_person, delete_person, get_all_persons, request_info_check,
                     index22, tutorial, AboutAs, get_all_stuff, get_all_product_2, create_person_form,
                     get_all_form_persons, create_several_persons, set_cookies_example, check_cookies_example,
                     formView, login_test, password_reset_request, me, test_session_request, messages_django,
-                    checkout_success, test_email)
+                    checkout_success, test_email, test_cache, test_cache2)
 
 urlpatterns = [
     path("", index, name="index"),
@@ -36,5 +37,7 @@ urlpatterns = [
     path("session", test_session_request),
     path("messages", messages_django),
     path("signal/<int:order_id>", checkout_success),
-    path("email", test_email)
+    path("email", test_email),
+    path("cache", test_cache),
+    path("cache2", cache_page)
 ]

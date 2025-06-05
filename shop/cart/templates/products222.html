@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %} products {% endblock title %}
+{% load static %}
+
+{% block content %}
+    <main>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="popup-message {{ message.tags }}">
+                  {{ message }} {{message.tags}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <section>
+          <ul>
+          {% for product in products %}
+            <li>
+              <p>
+                <img src="{% static 'img/products/' %}{{ product.photo }}" alt="{{ product.title }}">
+                <h3>{{product.stuff_name}}</h3>
+                <p>{{product.stuff_desc}}</p>
+                <button>{{product.price}} $</button>
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'add_to_cart' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="product_id" value="{{ product.pk }}">
+                  <input type="hidden" name="person_id" value="{{ user.pk }}">
+                  <button type="submit">Add to Cart</button>
+                </form>
+                {% else %}
+                    <p>Please login to add to cart</p>
+                {% endif %}
+              </p>
+            </li>
+          {% endfor %}
+          </ul>
+        </section>
+    </main>
+{% endblock content %}

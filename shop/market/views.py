@@ -7,7 +7,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail, get_connection, EmailMessage
-from django.http import HttpResponse, HttpResponseBadRequest, StreamingHttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, StreamingHttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Min, Max, Q
@@ -18,6 +18,8 @@ from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.http import require_http_methods
 from django.views.generic import TemplateView
 from django.contrib import messages
+from django.core.cache import cache
+from django.views.decorators.cache import cache_page
 
 from django.core.paginator import Paginator
 
@@ -193,7 +195,7 @@ def get_all_stuff(request):
         'all_stuff': Stuff.objects.all(),
     }
 
-    return render(request, "products.html", context)
+    return render(request, "products222.html", context)
 
 
 def get_all_product_2(request):
@@ -206,7 +208,7 @@ def get_all_product_2(request):
         page_num = 1
 
     page = paginator.get_page(page_num)
-    return render(request, "products.html", {"page": page, "products": page.object_list})
+    return render(request, "products222.html", {"page": page, "products": page.object_list})
 
 
 def create_person_form(request):
@@ -403,9 +405,29 @@ def test_email(request):
     )
     return HttpResponse("Tnx, all work2")
 
+
 def test_email2(request):
     with get_connection() as conn:
         m1 = EmailMessage("Hello", "One", to=["a@example.com"])
         m2 = EmailMessage("Hi", "Two", to=["b@example.com"])
 
         conn.send_messages([m1, m2])
+
+
+def long_request():
+    time.sleep(5)
+    all_rows = Person.objects.values()
+    return list(all_rows)
+
+def test_cache(request):
+    data = cache.get_or_set(
+        "persons:all",
+        long_request,
+        timeout=10
+    )
+    return JsonResponse(data, safe=False)
+
+@cache_page(60 * 5)
+def test_cache2(request):
+    all_rows = Person.objects.all()
+    return render(request, "cache.html", {"persons": all_rows})
