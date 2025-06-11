@@ -62,3 +62,6 @@ class Product(models.Model):
     name  = models.CharField(max_length=120)
     slug  = models.SlugField(blank=True, unique=True)
     price = models.DecimalField(max_digits=9, decimal_places=2)
+
+    def __str__(self):
+        return "Hello World"
