@@ -41,10 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'captcha'
     'market',
     'forms',
     'custom_auth',
-    'cart'
+    'cart',
 ]
 
 MIDDLEWARE = [

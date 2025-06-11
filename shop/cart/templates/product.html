@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %} Product {% endblock title %}
+{% load static %}
+
+{% block content %}
+    <main>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="popup-message {{ message.tags }}">
+                  {{ message }} {{message.tags}}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <section>
+          <ul>
+            <li>
+              <p>
+                <img src="{% static 'img/products/' %}{{ product.photo }}" alt="{{ product.title }}">
+                <h3>{{product.title}}</h3>
+                <p>{{product.description}}</p>
+                <button>{{product.price}} $</button>
+                <h3></h3>
+                {% if user.is_authenticated %}
+                <form method="POST" action="{% url 'add_to_cart' %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="product_id" value="{{ product.pk }}">
+                  <input type="hidden" name="person_id" value="{{ user.pk }}">
+                  <button type="submit">Add to Cart</button>
+                </form>
+                {% else %}
+                    <p>Please login to add to cart</p>
+                {% endif %}
+                <h3></h3>
+                <h3></h3>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ comment_form }}
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </form>
+                <h3></h3>
+                <h3>Reviews for {{product.title}}</h3>
+                {% for comment in comments %}
+                    <h5>Comment: {{ comment.content }} | {{ comment.timestamp }}</h5>
+                    <p>------------------------------------------------------------------</p>
+                {% endfor %}
+              </p>
+            </li>
+          </ul>
+        </section>
+    </main>
+{% endblock content %}
