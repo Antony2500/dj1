@@ -20,13 +20,13 @@ class Comment(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
-class Comment2(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE,verbose_name='Оголошення')
-    author = models.CharField(max_length=30, verbose_name= 'Автор')
-    content = models.TextField(verbose_name='Зміст')
-    is_active = models.BooleanField(default=True, db_index=True, verbose_name='Виводити на екран?')
-    created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Опубліковано')
-    class Meta:
-        verbose_name_plural = 'Коментарі'
-        verbose_name = 'Коментар'
-        ordering = ['created_at']
+# class Comment2(models.Model):
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE,verbose_name='Оголошення')
+#     author = models.CharField(max_length=30, verbose_name= 'Автор')
+#     content = models.TextField(verbose_name='Зміст')
+#     is_active = models.BooleanField(default=True, db_index=True, verbose_name='Виводити на екран?')
+#     created_at = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Опубліковано')
+#     class Meta:
+#         verbose_name_plural = 'Коментарі'
+#         verbose_name = 'Коментар'
+#         ordering = ['created_at']

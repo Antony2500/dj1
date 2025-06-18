@@ -36,7 +36,7 @@ urlpatterns = [
     path("me", me),
     path("session", test_session_request),
     path("messages", messages_django),
-    path("signal/<int:order_id>", checkout_success),
+    path("signal/<int:order_id>/<name>", checkout_success),
     path("email", test_email),
     path("cache", test_cache),
     path("cache2", cache_page)
