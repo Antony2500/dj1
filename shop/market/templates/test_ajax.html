@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %} ajax {% endblock title %}
+
+{% load static %}
+{% block static_files %}
+{% endblock %}
+
+
+{% block content %}
+    <input type="text" id="username">
+    <button id="checkBtn">Перевірити логін</button>
+    <div id="result"></div>
+{% endblock content %}
+
+{% block additional_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#checkBtn').click(function() {
+            const username = $('#username').val();
+
+            $.ajax({
+                url: '/check_username-data/',
+                type: 'GET',
+                data: { username: username },
+                success: function(response) {
+                    $('#result').text(response.exists ? 'Імʼя зайняте' : 'Імʼя доступне');
+                }
+            });
+        });
+    </script>
+{% endblock %}

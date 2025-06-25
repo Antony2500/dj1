@@ -431,3 +431,19 @@ def test_cache(request):
 def test_cache2(request):
     all_rows = Person.objects.all()
     return render(request, "cache.html", {"persons": all_rows})
+
+
+def my_ajax_view(request):
+    if request.method == 'GET':
+        data = {
+            'message': 'Це відповідь з Django через AJAX!',
+        }
+        return JsonResponse(data)
+
+def index222(request):
+    return render(request, 'test_ajax.html')
+
+def check_username(request):
+    username = request.GET.get('username')
+    exists = User.objects.filter(username=username).exists()
+    return JsonResponse({'exists': exists})
