@@ -443,6 +443,9 @@ def my_ajax_view(request):
 def index222(request):
     return render(request, 'test_ajax.html')
 
+def test_jquery(request):
+    return render(request, 'jquery.html')
+
 def check_username(request):
     username = request.GET.get('username')
     exists = User.objects.filter(username=username).exists()

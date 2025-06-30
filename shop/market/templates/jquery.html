@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %} Test {% endblock title %}
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2>jQuery в Django</h2>
+
+        <button id="toggle-button" class="btn btn-primary">Показати/Сховати</button>
+        <p id="toggle-text" style="display: none;">Прихований текст</p>
+
+        <hr>
+
+        <button id="ajax-button" class="btn btn-success">Отримати дані AJAX</button>
+        <div id="ajax-result" class="mt-3"></div>
+    </div>
+{% endblock content %}
+
+{% block additional_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+        // Простий приклад toggle (показати/сховати)
+        $("#toggle-button").click(function() {
+            $("#toggle-text").toggle();
+        });
+
+        // Приклад AJAX-запиту до Django
+        $("#ajax-button").click(function() {
+            $.ajax({
+                url: "{% url 'my_ajax' %}",  // URL для AJAX (потрібно додати в urls.py)
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    $("#ajax-result").html("<p>Отримано від сервера: " + response.message + "</p>");
+                },
+                error: function(xhr, status, error) {
+                    $("#ajax-result").html("<p>Помилка: " + error + "</p>");
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
