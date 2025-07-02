@@ -1,0 +1,12 @@
+Watching for file changes with StatReloader
+Start processing
+End processing
+Start processing
+End processing
+D:\django_goiteens\lesson1_part2\shop\shop\settings.py changed, reloading.
+[2025-06-30 18:50:32,137 INFO django.utils.autoreload (autoreload:668) - Watching for file changes with StatReloader]
+[2025-06-30 18:50:35,184 DEBUG market.views (views:36) - Start processing]
+[2025-06-30 18:50:35,184 INFO market.views (views:40) - End processing]
+[2025-06-30 18:55:33,529 INFO django.utils.autoreload (autoreload:668) - Watching for file changes with StatReloader]
+[2025-06-30 18:55:38,128 DEBUG market.views (views:36) - Start processing]
+[2025-06-30 18:55:38,128 INFO market.views (views:40) - End processing]

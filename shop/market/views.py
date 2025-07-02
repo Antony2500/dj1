@@ -1,5 +1,6 @@
 import time
 import traceback
+import logging
 from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
@@ -28,12 +29,15 @@ from .forms import PersonForm, PersonModelForm, GetAllPersonForms, CreateNewPers
 from .signals import order_completed
 
 
-def index(request):
+logger = logging.getLogger(__name__)
 
+
+def index(request):
+    logger.debug("Start processing")
     context = {
         "title": "main"
     }
-
+    logger.info("End processing")
     return render(request, 'index.html', context)
 
 

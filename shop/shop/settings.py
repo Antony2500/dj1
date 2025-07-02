@@ -160,3 +160,36 @@ CACHES = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:8080"
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime} {levelname} {name} ({module}:{lineno}) - {message}]',
+            'style': '{'
+        },
+        'custom': {
+            'format': '%(asctime)s [%(levelname)s] %(message)s (%(name)s)',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'custom'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+            'formatter': 'verbose'
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'DEBUG',
+    },
+}
+
